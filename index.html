@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحاضرة 14: الامتحان الشامل النهائي | حراس المستقبل الرقمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --radius: 20px;
+            --shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%);
+            color: var(--dark);
+            line-height: 1.8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .logo-box {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 3px solid rgba(255,255,255,0.4);
+        }
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2em; opacity: 0.95; }
+        .content { padding: 40px; }
+        h2 {
+            color: var(--primary);
+            font-size: 2em;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+        }
+        h3 {
+            color: var(--secondary);
+            font-size: 1.5em;
+            margin: 20px 0 15px;
+        }
+        p { margin-bottom: 15px; font-size: 1.1em; }
+        .info-box {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-right: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-right: 5px solid var(--danger);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-right: 5px solid var(--success);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-right: 5px solid var(--accent);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .exam-structure {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .exam-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--primary);
+        }
+        .exam-card h4 {
+            color: var(--primary);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .lecture-review {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .lecture-item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary);
+            transition: transform 0.3s;
+        }
+        .lecture-item:hover {
+            transform: translateX(-5px);
+        }
+        .lecture-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .lecture-item ul {
+            padding-right: 20px;
+            margin-top: 10px;
+        }
+        .lecture-item li {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .question-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .question-type {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        .question-type h4 {
+            color: var(--accent);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        .tips-list li {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-right: 4px solid var(--success);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .tips-list li::before {
+            content: '✓';
+            background: var(--success);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .resource-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+        .resource-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .resource-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 2.5em;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .stat-item .label {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            .content { padding: 20px; }
+            .exam-structure, .question-types, .resources-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-box">🎓</div>
+            <h1>المحاضرة الرابعة عشرة: الامتحان الشامل النهائي</h1>
+            <p class="subtitle">اختبار شامل يغطي جميع المحاضرات الـ 13 - 50 سؤال / 100 درجة</p>
+        </header>
+
+        <div class="content">
+            <div class="info-box">
+                <h3>🎯 مقدمة</h3>
+                <p>
+                    هذه المحاضرة هي الاختبار النهائي الذي يقيس مدى استيعابك وفهمك لجميع المفاهيم التي تعلمتها خلال المحاضرات الـ 13 السابقة. الامتحان مصمم ليختبر معرفتك الشاملة في الأمن السيبراني من الأساسيات إلى المفاهيم المتقدمة.
+                </p>
+            </div>
+
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="number">50</div>
+                    <div class="label">سؤال</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">100</div>
+                    <div class="label">درجة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">45</div>
+                    <div class="label">دقيقة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">13</div>
+                    <div class="label">محاضرة</div>
+                </div>
+            </div>
+
+            <h2>📊 هيكل الامتحان</h2>
+            <div class="exam-structure">
+                <div class="exam-card">
+                    <h4>📝 أسئلة اختيار من متعدد</h4>
+                    <p><strong>30 سؤال</strong> - 60 درجة</p>
+                    <p>كل سؤال له 4 خيارات، اختر الإجابة الصحيحة</p>
+                </div>
+                <div class="exam-card">
+                    <h4>✅ أسئلة صح وخطأ</h4>
+                    <p><strong>20 سؤال</strong> - 40 درجة</p>
+                    <p>حدد ما إذا كانت العبارة صحيحة أم خاطئة</p>
+                </div>
+            </div>
+
+            <h2>📚 مراجعة شاملة للمحاضرات</h2>
+            <div class="lecture-review">
+                <div class="lecture-item">
+                    <h4>🔐 المحاضرة 1: أساسيات الأمن السيبراني</h4>
+                    <ul>
+                        <li>مفهوم الأمن السيبراني وأهميته</li>
+                        <li>أنواع التهديدات السيبرانية</li>
+                        <li>مبادئ CIA (السرية، النزاهة، التوفر)</li>
+                        <li>أفضل الممارسات الأمنية الأساسية</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🌐 المحاضرة 2: الشبكات والبروتوكولات</h4>
+                    <ul>
+                        <li>مفهوم الشبكات وأنواعها</li>
+                        <li>نموذج OSI وطبقاته السبع</li>
+                        <li>بروتوكولات TCP/IP</li>
+                        <li>عناوين IP وعناوين MAC</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🖥️ المحاضرة 3: أنظمة التشغيل</h4>
+                    <ul>
+                        <li>مفهوم نظام التشغيل ووظائفه</li>
+                        <li>أنواع أنظمة التشغيل (Windows, Linux, macOS)</li>
+                        <li>إدارة المستخدمين والصلاحيات</li>
+                        <li>أمان أنظمة التشغيل</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🌍 المحاضرة 4: التصفح الآمن</h4>
+                    <ul>
+                        <li>مخاطر التصفح على الإنترنت</li>
+                        <li>بروتوكول HTTPS وأهميته</li>
+                        <li>الشهادات الرقمية SSL/TLS</li>
+                        <li>أدوات التصفح الآمن</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>📧 المحاضرة 5: البريد الإلكتروني الآمن</h4>
+                    <ul>
+                        <li>مخاطر البريد الإلكتروني</li>
+                        <li>التصيد الاحتيالي (Phishing)</li>
+                        <li>البريد العشوائي (Spam)</li>
+                        <li>أفضل ممارسات أمان البريد</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>👣 المحاضرة 6: البصمة الرقمية</h4>
+                    <ul>
+                        <li>مفهوم البصمة الرقمية</li>
+                        <li>أنواع البصمة الرقمية (نشطة وسلبية)</li>
+                        <li>إدارة البصمة الرقمية</li>
+                        <li>حماية الخصوصية على الإنترنت</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>📱 المحاضرة 7: أمن وسائل التواصل الاجتماعي</h4>
+                    <ul>
+                        <li>مخاطر وسائل التواصل الاجتماعي</li>
+                        <li>إعدادات الخصوصية</li>
+                        <li>التنمر الإلكتروني</li>
+                        <li>أفضل ممارسات الأمان</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🎮 المحاضرة 8: أمن الألعاب الإلكترونية</h4>
+                    <ul>
+                        <li>مخاطر الألعاب الإلكترونية</li>
+                        <li>حماية حسابات الألعاب</li>
+                        <li>التصيد في الألعاب</li>
+                        <li>أمان المعاملات في الألعاب</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🎭 المحاضرة 9: الهندسة الاجتماعية</h4>
+                    <ul>
+                        <li>مفهوم الهندسة الاجتماعية</li>
+                        <li>أساليب الهندسة الاجتماعية</li>
+                        <li>التصيد الاحتيالي المتقدم</li>
+                        <li>الحماية من الهندسة الاجتماعية</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🆘 المحاضرة 10: الاستجابة للحوادث</h4>
+                    <ul>
+                        <li>مفهوم الاستجابة للحوادث</li>
+                        <li>مراحل الاستجابة للحوادث</li>
+                        <li>أدوات الاستجابة</li>
+                        <li>خطة الاستجابة للحوادث</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🔒 المحاضرة 11: التشفير</h4>
+                    <ul>
+                        <li>مفهوم التشفير وأهميته</li>
+                        <li>أنواع التشفير (متماثل وغير متماثل)</li>
+                        <li>خوارزميات التشفير</li>
+                        <li>تطبيقات التشفير</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🛡️ المحاضرة 12: جدران الحماية والبرمجيات الخبيثة</h4>
+                    <ul>
+                        <li>مفهوم جدران الحماية</li>
+                        <li>أنواع جدران الحماية</li>
+                        <li>البرمجيات الخبيثة وأنواعها</li>
+                        <li>مكافحة البرمجيات الخبيثة</li>
+                    </ul>
+                </div>
+
+                <div class="lecture-item">
+                    <h4>🚀 المحاضرة 13: مستقبل الأمن السيبراني</h4>
+                    <ul>
+                        <li>اتجاهات الأمن السيبراني المستقبلية</li>
+                        <li>الذكاء الاصطناعي في الأمن السيبراني</li>
+                        <li>إنترنت الأشياء والأمن</li>
+                        <li>الفرص المهنية في الأمن السيبراني</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>📝 أنواع الأسئلة</h2>
+            <div class="question-types">
+                <div class="question-type">
+                    <h4>🎯 أسئلة المفاهيم</h4>
+                    <p>تختبر فهمك للمفاهيم الأساسية والمصطلحات</p>
+                    <p><strong>مثال:</strong> ما هو مفهوم البصمة الرقمية؟</p>
+                </div>
+                <div class="question-type">
+                    <h4>🔍 أسئلة التطبيق</h4>
+                    <p>تختبر قدرتك على تطبيق المفاهيم في سيناريوهات عملية</p>
+                    <p><strong>مثال:</strong> كيف تحمي حسابك من التصيد الاحتيالي؟</p>
+                </div>
+                <div class="question-type">
+                    <h4>⚖️ أسئلة التحليل</h4>
+                    <p>تختبر قدرتك على تحليل المواقف واتخاذ القرارات</p>
+                    <p><strong>مثال:</strong> ما هو التصرف الصحيح عند تلقي رسالة مشبوهة؟</p>
+                </div>
+                <div class="question-type">
+                    <h4> أسئلة الأدوات</h4>
+                    <p>تختبر معرفتك بالأدوات والتقنيات الأمنية</p>
+                    <p><strong>مثال:</strong> ما وظيفة جدار الحماية؟</p>
+                </div>
+            </div>
+
+            <h2>💡 نصائح للنجاح في الامتحان</h2>
+            <ul class="tips-list">
+                <li>
+                    <div>
+                        <strong>راجع جميع المحاضرات:</strong> تأكد من مراجعة جميع المحاضرات الـ 13 بعناية، خاصة المفاهيم الأساسية والمصطلحات
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>افهم وليس فقط احفظ:</strong> حاول فهم المفاهيم بدلاً من حفظها فقط، هذا سيساعدك في الإجابة على أسئلة التطبيق والتحليل
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>إدارة الوقت:</strong> لديك 45 دقيقة للإجابة على 50 سؤال، خصص حوالي 50 ثانية لكل سؤال
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>اقرأ الأسئلة بعناية:</strong> اقرأ كل سؤال بعناية قبل الإجابة، وتأكد من فهم ما يُطلب منك
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>ابدأ بالأسئلة السهلة:</strong> ابدأ بالأسئلة التي تعرف إجاباتها بالتأكيد، ثم عد للأسئلة الأصعب
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>لا تترك أسئلة بدون إجابة:</strong> إذا لم تكن متأكداً من الإجابة، خمن بشكل منطقي بدلاً من ترك السؤال فارغاً
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>راجع إجاباتك:</strong> إذا بقي لديك وقت، راجع إجاباتك وتأكد من عدم وجود أخطاء
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>حافظ على هدوئك:</strong> لا تدع التوتر يؤثر على أدائك، خذ نفساً عميقاً وابدأ بثقة
+                    </div>
+                </li>
+            </ul>
+
+            <h2>📖 موارد للمراجعة</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>📚 ملخصات المحاضرات</h4>
+                    <p>راجع ملخصات جميع المحاضرات الـ 13</p>
+                    <a href="#">تحميل الملخصات</a>
+                </div>
+                <div class="resource-card">
+                    <h4>🎥 فيديوهات الشرح</h3>
+                    <p>شاهد فيديوهات الشرح للمفاهيم الصعبة</p>
+                    <a href="#">مشاهدة الفيديوهات</a>
+                </div>
+                <div class="resource-card">
+                    <h4>❓ بنك الأسئلة</h3>
+                    <p>تدرب على أسئلة إضافية مشابهة</p>
+                    <a href="#">الوصول لبنك الأسئلة</a>
+                </div>
+                <div class="resource-card">
+                    <h4>📖 المصطلحات</h3>
+                    <p>راجع قائمة المصطلحات والمفاهيم</p>
+                    <a href="#">تحميل قائمة المصطلحات</a>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h3>🌟 رسالة تحفيزية</h3>
+                <p>
+                    لقد بذلت جهداً كبيراً في تعلم الأمن السيبراني خلال هذه المحاضرات الـ 13. هذا الامتحان هو فرصة لإظهار ما تعلمته. ثق بنفسك وبما تعلمته، وابدأ الامتحان بثقة وهدوء.
+                </p>
+                <p>
+                    تذكر أن الهدف ليس فقط النجاح في الامتحان، بل فهم المفاهيم وتطبيقها في حياتك الرقمية اليومية. الأمن السيبراني مهارة ستحتاجها طوال حياتك.
+                </p>
+                <p style="text-align: center; font-size: 1.3em; font-weight: bold; margin-top: 20px;">
+                    بالتوفيق والنجاح! 🎓✨
+                </p>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ تذكيرات مهمة</h3>
+                <ul>
+                    <li>تأكد من اتصالك بالإنترنت قبل بدء الامتحان</li>
+                    <li>اختر مكاناً هادئاً للامتحان</li>
+                    <li>تأكد من شحن جهازك بالكامل</li>
+                    <li>لا تفتح أي تبويبات أو تطبيقات أخرى أثناء الامتحان</li>
+                    <li>اقرأ التعليمات بعناية قبل البدء</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <h3>🎯 بعد الامتحان</h3>
+                <p>
+                    بعد الانتهاء من الامتحان، ستحصل على نتائجك فوراً. إذا نجحت، تهانينا! إذا لم تنجح، لا تقلق، يمكنك إعادة المحاولة بعد مراجعة المواد.
+                </p>
+                <p>
+                    بغض النظر عن النتيجة، الأهم هو ما تعلمته خلال هذه الرحلة. المعرفة التي اكتسبتها ستفيدك في حماية نفسك والآخرين في العالم الرقمي.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
