@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان المستوى الثاني — الأمن السيبراني والشبكات | Sunshine T Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #f0f2f5;
+            color: #1e293b;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* ===== شاشة البداية ===== */
+        .start-screen {
+            padding: 40px 30px;
+        }
+        .academy-header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .academy-header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        .academy-header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .academy-header .exam-title {
+            font-size: 1.4em;
+            margin-top: 15px;
+            font-weight: 800;
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .exam-info-bar {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+        .info-item {
+            text-align: center;
+        }
+        .info-item .icon { font-size: 1.8em; }
+        .info-item .label { font-size: 0.85em; color: #64748b; }
+        .info-item .value { font-size: 1.2em; font-weight: 800; color: #1e3a8a; }
+
+        .student-form {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            margin: 25px 0;
+        }
+        .student-form h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .warning-box {
+            background: #fef3c7;
+            border-right: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        .btn-start {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+        }
+        .btn-start:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== شاشة الامتحان ===== */
+        .exam-screen {
+            display: none;
+        }
+        .exam-header-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 3px solid #1e3a8a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 100;
+        }
+        .timer-box {
+            background: #1e3a8a;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .timer-box.warning { background: #f59e0b; animation: pulse 1s infinite; }
+        .timer-box.danger { background: #ef4444; animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+        .progress-info {
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            transition: width 0.3s;
+        }
+
+        .exam-body {
+            padding: 25px 20px;
+        }
+        .question-block {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .question-block.answered {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .q-number {
+            background: #1e3a8a;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .q-lecture {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+        .q-text {
+            font-size: 1.1em;
+            font-weight: 700;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+        .options-list {
+            display: grid;
+            gap: 8px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1em;
+        }
+        .option-item:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .option-item.selected {
+            border-color: #1e3a8a;
+            background: #dbeafe;
+            font-weight: 600;
+        }
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-item.selected .option-radio {
+            border-color: #1e3a8a;
+            background: #1e3a8a;
+        }
+        .option-item.selected .option-radio::after {
+            content: '✓';
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        /* خريطة الأسئلة */
+        .questions-map {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+        }
+        .questions-map h4 {
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+        }
+        .map-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .map-cell.answered { background: #d1fae5; border-color: #10b981; color: #065f46; }
+        .map-cell.current { background: #dbeafe; border-color: #3b82f6; }
+        .map-cell:hover { transform: scale(1.1); }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16,185,129,0.3);
+        }
+
+        /* ===== شاشة النتيجة ===== */
+        .result-screen {
+            display: none;
+            padding: 30px 20px;
+        }
+        .result-header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+        .result-header h2 { font-size: 1.8em; margin-bottom: 10px; }
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: white;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid #10b981;
+        }
+        .score-number { font-size: 3em; font-weight: 900; color: #1e3a8a; line-height: 1; }
+        .score-label { font-size: 0.9em; color: #64748b; }
+        .grade-badge {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.3em;
+            margin: 15px 0;
+        }
+        .grade-excellent { background: #d1fae5; color: #065f46; }
+        .grade-vgood { background: #dbeafe; color: #1e40af; }
+        .grade-good { background: #fef3c7; color: #92400e; }
+        .grade-pass { background: #fed7aa; color: #9a3412; }
+        .grade-fail { background: #fee2e2; color: #991b1b; }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .result-table th {
+            background: #1e3a8a;
+            color: white;
+            padding: 12px;
+            text-align: right;
+        }
+        .result-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+        .stat-value { font-size: 1.8em; font-weight: 800; color: #1e3a8a; }
+        .stat-label { font-size: 0.85em; color: #64748b; }
+
+        .action-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        .btn-print {
+            padding: 12px 30px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-retry {
+            padding: 12px 30px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ===== طباعة A4 ===== */
+        @media print {
+            body { background: white; }
+            .container { max-width: 100%; box-shadow: none; }
+            .no-print { display: none !important; }
+            .exam-body { padding: 10px; }
+            .question-block {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+                margin-bottom: 12px;
+                padding: 12px;
+            }
+            .option-item { border: 1px solid #ddd; padding: 8px 10px; }
+            .exam-header-bar { position: static; border-bottom: 2px solid #1e3a8a; }
+            .questions-map { display: none; }
+            .result-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .score-circle { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .grade-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page {
+                size: A4 portrait;
+                margin: 15mm;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .map-grid { grid-template-columns: repeat(10, 1fr); }
+            .map-cell { font-size: 0.6em; }
+            .academy-header h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ===== شاشة البداية ===== -->
+    <div class="start-screen" id="startScreen">
+        <div class="academy-header">
+            <div style="font-size:3em; margin-bottom:10px;"></div>
+            <h1>Sunshine T Academy</h1>
+            <div class="subtitle">الأكاديمية المتخصصة في الذكاء الاصطناعي والأمن السيبراني</div>
+            <div class="exam-title">
+                🛡️ امتحان المستوى الثاني — الأمن السيبراني والشبكات
+            </div>
+            <div style="margin-top:10px; font-size:0.95em;">
+                من أساسيات الشبكات إلى البرمجة الأمنية وأدوات الاختراق
+            </div>
+        </div>
+
+        <div class="exam-info-bar">
+            <div class="info-item">
+                <div class="icon"></div>
+                <div class="value">100</div>
+                <div class="label">سؤال اختياري</div>
+            </div>
+            <div class="info-item">
+                <div class="icon">️</div>
+                <div class="value">60</div>
+                <div class="label">دقيقة</div>
+            </div>
+            <div class="info-item">
+                <div class="icon"></div>
+                <div class="value">100</div>
+                <div class="label">درجة</div>
+            </div>
+            <div class="info-item">
+                <div class="icon">📚</div>
+                <div class="value">13</div>
+                <div class="label">محاضرة</div>
+            </div>
+            <div class="info-item">
+                <div class="icon">✅</div>
+                <div class="value">60%</div>
+                <div class="label">درجة النجاح</div>
+            </div>
+        </div>
+
+        <div class="student-form">
+            <h3>📋 بيانات الطالب</h3>
+            <div class="form-group">
+                <label>اسم الطالب *</label>
+                <input type="text" id="studentName" placeholder="اكتب اسمك الكامل" oninput="checkStart()">
+            </div>
+            <div class="form-group">
+                <label>عمر الطالب *</label>
+                <input type="number" id="studentAge" placeholder="العمر" min="8" max="20" oninput="checkStart()">
+            </div>
+            <div class="form-group">
+                <label>تاريخ الامتحان (تلقائي)</label>
+                <input type="text" id="examDate" readonly>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            ⚠️ <strong>تنبيه مهم:</strong> بمجرد البدء يبدأ العدّاد ولا يمكن إيقافه. تأكد من استقرار اتصالك بالإنترنت. بالتوفيق! 🍀
+        </div>
+
+        <button class="btn-start" id="startBtn" onclick="startExam()" disabled>
+             بدء الامتحان
+        </button>
+    </div>
+
+    <!-- ===== شاشة الامتحان ===== -->
+    <div class="exam-screen" id="examScreen">
+        <div class="exam-header-bar no-print">
+            <div class="timer-box" id="timerBox">
+                ⏱️ <span id="timerText">60:00</span>
+            </div>
+            <div class="progress-info" id="progressInfo">المُجاب: 0/100</div>
+        </div>
+        <div class="progress-bar-container no-print">
+            <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+        </div>
+
+        <div class="exam-body" id="examBody">
+            <!-- الأسئلة تُضاف ديناميكياً -->
+        </div>
+
+        <div class="questions-map no-print" id="questionsMap">
+            <h4>🗺️ خريطة الأسئلة</h4>
+            <div class="map-grid" id="mapGrid"></div>
+            <p style="font-size:0.85em; color:#64748b; margin-top:10px;">
+                🟢 أخضر = مُجاب | ⚪ أبيض = لم يُجب بعد
+            </p>
+        </div>
+
+        <button class="submit-btn no-print" onclick="confirmSubmit()">
+            📤 تسليم الورقة
+        </button>
+    </div>
+
+    <!-- ===== شاشة النتيجة ===== -->
+    <div class="result-screen" id="resultScreen">
+        <div class="result-header">
+            <div style="font-size:3em;">🏆</div>
+            <h2>نتيجة الامتحان</h2>
+            <div style="font-size:1.1em; opacity:0.9;" id="resultStudentName"></div>
+        </div>
+
+        <div class="score-circle">
+            <div class="score-number" id="scoreNumber">0</div>
+            <div class="score-label">من 100</div>
+        </div>
+
+        <div style="text-align:center;">
+            <div class="grade-badge" id="gradeBadge">-</div>
+        </div>
+
+        <table class="result-table">
+            <tr><th>اسم الطالب</th><td id="resName">-</td></tr>
+            <tr><th>العمر</th><td id="resAge">-</td></tr>
+            <tr><th>تاريخ الامتحان</th><td id="resDate">-</td></tr>
+            <tr><th>الامتحان</th><td>امتحان المستوى الثاني — الأمن السيبراني والشبكات</td></tr>
+            <tr><th>المستوى</th><td>المستوى الثاني (13 محاضرة)</td></tr>
+            <tr><th>الزمن المستغرق</th><td id="resTime">-</td></tr>
+        </table>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="resCorrect">0</div>
+                <div class="stat-label">✅ صحيح</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="resWrong">0</div>
+                <div class="stat-label">❌ خطأ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="resSkipped">0</div>
+                <div class="stat-label">⬜ بدون إجابة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="resPercent">0%</div>
+                <div class="stat-label"> النسبة</div>
+            </div>
+        </div>
+
+        <div id="reviewSection" style="margin-top:25px;"></div>
+
+        <div class="action-btns no-print">
+            <button class="btn-print" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+            <button class="btn-retry" onclick="location.reload()">🔄 محاولة جديدة</button>
+        </div>
+
+        <div class="warning-box no-print" style="margin-top:20px;">
+            💡 عند الطباعة اختر <strong>"Save as PDF"</strong> لتسليم الملف للأكاديمية.
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ===== بنك الأسئلة (100 سؤال) =====
+const questions = [
+    // ===== المحاضرة 1: مقدمة في الشبكات ونماذج الاتصال (8 أسئلة) =====
+    {l:"المحاضرة 1", q:"ما هو نموذج OSI؟", opts:["نموذج من 4 طبقات لوصف الإنترنت","نموذج مرجعي من 7 طبقات لوصف اتصال الشبكات","نوع من بروتوكولات التوجيه","برنامج لإدارة الشبكات"], ans:1},
+    {l:"المحاضرة 1", q:"كم عدد طبقات نموذج TCP/IP العملي؟", opts:["7 طبقات","5 طبقات","4 طبقات","3 طبقات"], ans:2},
+    {l:"المحاضرة 1", q:"أي طبقة في OSI مسؤولة عن التوجيه (Routing)؟", opts:["طبقة الربط (Data Link)","طبقة الشبكة (Network)","طبقة النقل (Transport)","طبقة الجلسة (Session)"], ans:1},
+    {l:"المحاضرة 1", q:"ما هي عملية Encapsulation؟", opts:["تشفير البيانات","تغليف البيانات برؤوس (Headers) في كل طبقة","ضغط البيانات","حذف البيانات القديمة"], ans:1},
+    {l:"المحاضرة 1", q:"الطبقة التي تتعامل مع البتات (Bits) والإشارات الكهربائية هي:", opts:["طبقة التطبيقات","طبقة النقل","الطبقة الفيزيائية","طبقة الجلسة"], ans:2},
+    {l:"المحاضرة 1", q:"بروتوكول HTTP يعمل في أي طبقة من OSI؟", opts:["طبقة الشبكة","طبقة النقل","طبقة التطبيقات","طبقة الربط"], ans:2},
+    {l:"المحاضرة 1", q:"ما الفرق الرئيسي بين OSI و TCP/IP؟", opts:["OSI عملي و TCP/IP نظري","OSI نظري من 7 طبقات و TCP/IP عملي من 4 طبقات","لا يوجد فرق","TCP/IP يحتوي على طبقات أكثر"], ans:1},
+    {l:"المحاضرة 1", q:"PDU في طبقة النقل يسمى:", opts:["Frame","Packet","Segment","Bit"], ans:2},
+
+    // ===== المحاضرة 2: الطبقة الفيزيائية وربط البيانات (7 أسئلة) =====
+    {l:"المحاضرة 2", q:"ما هو عنوان MAC؟", opts:["عنوان منطقي يُعطى ديناميكياً","عنوان فيزيائي فريد لبطاقة الشبكة","عنوان IP العام","اسم الجهاز في الشبكة"], ans:1},
+    {l:"المحاضرة 2", q:"كم عدد بتات عنوان MAC؟", opts:["32 بت","48 بت","64 بت","128 بت"], ans:1},
+    {l:"المحاضرة 2", q:"ما وظيفة بروتوكول ARP؟", opts:["تحويل أسماء النطاقات إلى IP","تحويل عنوان IP إلى عنوان MAC","تشفير البيانات","توجيه الحزم بين الشبكات"], ans:1},
+    {l:"المحاضرة 2", q:"ما الفرق بين Hub و Switch؟", opts:["لا فرق بينهما","Hub يرسل البيانات للجميع، Switch يرسلها للوجهة فقط","Switch أبطأ من Hub","Hub أكثر أماناً"], ans:1},
+    {l:"المحاضرة 2", q:"ما هي VLAN؟", opts:["نوع من الكابلات","شبكة محلية افتراضية تقسم الشبكة منطقياً","بروتوكول أمني","نوع من الراوترات"], ans:1},
+    {l:"المحاضرة 2", q:"أي وسيط نقل يوفر أعلى سرعة وأقل تداخل؟", opts:["الكابل المحوري","الكابل النحاسي (UTP)","الألياف الضوئية (Fiber)","الموجات اللاسلكية"], ans:2},
+    {l:"المحاضرة 2", q:"إطار Ethernet (Frame) يحتوي على:", opts:["عنوان IP فقط","عنوان MAC المصدر والوجهة وبيانات و CRC","بروتوكول HTTP فقط","عنوان DNS فقط"], ans:1},
+
+    // ===== المحاضرة 3: طبقة الشبكة و IPv4 (8 أسئلة) =====
+    {l:"المحاضرة 3", q:"كم عدد بتات عنوان IPv4؟", opts:["32 بت","64 بت","128 بت","16 بت"], ans:0},
+    {l:"المحاضرة 3", q:"أي من التالي عنوان IP خاص (Private)؟", opts:["8.8.8.8","192.168.1.1","1.1.1.1","200.100.50.25"], ans:1},
+    {l:"المحاضرة 3", q:"ما وظيفة Subnet Mask؟", opts:["إخفاء عنوان IP","تحديد جزء الشبكة وجزء المضيف في العنوان","تشفير البيانات","تسريع الإنترنت"], ans:1},
+    {l:"المحاضرة 3", q:"Subnet Mask 255.255.255.0 يعني:", opts:["/8","/16","/24","/32"], ans:2},
+    {l:"المحاضرة 3", q:"كم عدد المضيفين الصالحين في شبكة /24؟", opts:["256","254","255","128"], ans:1},
+    {l:"المحاضرة 3", q:"ما هو Default Gateway؟", opts:["جدار الحماية","الراوتر الذي يربط الشبكة المحلية بالإنترنت","خادم DNS","خادم DHCP"], ans:1},
+    {l:"المحاضرة 3", q:"أي Class يحتوي على أكبر عدد من الشبكات؟", opts:["Class A","Class B","Class C","Class D"], ans:2},
+    {l:"المحاضرة 3", q:"عنوان 10.0.0.1 ينتمي إلى:", opts:["Class A","Class B","Class C","Class D"], ans:0},
+
+    // ===== المحاضرة 4: التوجيه و NAT (7 أسئلة) =====
+    {l:"المحاضرة 4", q:"ما وظيفة الراوتر؟", opts:["توصيل الأجهزة في نفس الشبكة","توجيه الحزم بين شبكات مختلفة","تخزين الملفات","تشفير البيانات"], ans:1},
+    {l:"المحاضرة 4", q:"ما الفرق بين Static Routing و Dynamic Routing؟", opts:["Static أسرع دائماً","Static يُدخل يدوياً، Dynamic يتعلم تلقائياً","لا فرق","Dynamic أبطأ دائماً"], ans:1},
+    {l:"المحاضرة 4", q:"بروتوكول OSPF هو:", opts:["بروتوكول بريد إلكتروني","بروتوكول توجيه ديناميكي","بروتوكول تشفير","بروتوكول نقل ملفات"], ans:1},
+    {l:"المحاضرة 4", q:"ما هو NAT؟", opts:["Network Address Translation - ترجمة عناوين الشبكة","نوع من الهجمات","بروتوكول أمني","خادم ويب"], ans:0},
+    {l:"المحاضرة 4", q:"لماذا نستخدم NAT؟", opts:["لتسريع الإنترنت","لحفظ عناوين IPv4 العامة والسماح لعدة أجهزة بمشاركة عنوان واحد","لتشفير البيانات","لمنع الفيروسات"], ans:1},
+    {l:"المحاضرة 4", q:"Routing Table يحتوي على:", opts:["كلمات السر فقط","مسارات الوجهات وعناوين Next-Hop","أسماء المستخدمين","تاريخ التصفح"], ans:1},
+    {l:"المحاضرة 4", q:"بروتوكول BGP يُستخدم في:", opts:["الشبكات المحلية فقط","التوجيه بين أنظمة مستقلة (Internet)","البريد الإلكتروني","نقل الملفات"], ans:1},
+
+    // ===== المحاضرة 5: طبقة النقل TCP/UDP (8 أسئلة) =====
+    {l:"المحاضرة 5", q:"ما الفرق الرئيسي بين TCP و UDP؟", opts:["TCP أسرع","TCP موثوق ويضمن التسليم، UDP سريع لكن غير موثوق","UDP أكثر أماناً","لا فرق"], ans:1},
+    {l:"المحاضرة 5", q:"ما هي Three-Way Handshake في TCP؟", opts:["SYN → SYN-ACK → ACK","GET → POST → PUT","Request → Response → Close","Start → Middle → End"], ans:0},
+    {l:"المحاضرة 5", q:"منفذ HTTP الافتراضي هو:", opts:["21","25","80","443"], ans:2},
+    {l:"المحاضرة 5", q:"منفذ HTTPS الافتراضي هو:", opts:["80","443","8080","22"], ans:1},
+    {l:"المحاضرة 5", q:"أي تطبيق يستخدم UDP عادةً؟", opts:["تصفح الويب","البريد الإلكتروني","البث المباشر (Streaming)","نقل الملفات FTP"], ans:2},
+    {l:"المحاضرة 5", q:"Port Number يتكون من:", opts:["8 بت","16 بت (0-65535)","32 بت","64 بت"], ans:1},
+    {l:"المحاضرة 5", q:"منفذ SSH الافتراضي هو:", opts:["21","22","23","25"], ans:1},
+    {l:"المحاضرة 5", q:"TCP يستخدم آلية للتحكم في التدفق تسمى:", opts:["Checksum","Window Size / Flow Control","Encryption","Compression"], ans:1},
+
+    // ===== المحاضرة 6: طبقة التطبيقات (7 أسئلة) =====
+    {l:"المحاضرة 6", q:"ما وظيفة DNS؟", opts:["توزيع عناوين IP","تحويل أسماء النطاقات إلى عناوين IP","تشفير البريد","ضغط البيانات"], ans:1},
+    {l:"المحاضرة 6", q:"بروتوكول DHCP يُستخدم لـ:", opts:["تصفح الويب","توزيع عناوين IP تلقائياً","إرسال البريد","نقل الملفات"], ans:1},
+    {l:"المحاضرة 6", q:"منفذ DNS الافتراضي هو:", opts:["53","80","443","25"], ans:0},
+    {l:"المحاضرة 6", q:"بروتوكول FTP يستخدم المنفذين:", opts:["20 و 21","80 و 443","25 و 110","53 و 54"], ans:0},
+    {l:"المحاضرة 6", q:"بروتوكول SMTP يُستخدم لـ:", opts:["استقبال البريد","إرسال البريد الإلكتروني","تصفح الويب","نقل الملفات"], ans:1},
+    {l:"المحاضرة 6", q:"عملية DORA في DHCP تعني:", opts:["Discover-Offer-Request-Acknowledge","Download-Open-Read-Access","Data-Object-Resource-Action","لا شيء مما سبق"], ans:0},
+    {l:"المحاضرة 6", q:"IMAP و POP3 هما بروتوكولا:", opts:["إرسال البريد","استقبال البريد","تصفح الويب","نقل الملفات"], ans:1},
+
+    // ===== المحاضرة 7: IPv6 (6 أسئلة) =====
+    {l:"المحاضرة 7", q:"كم عدد بتات عنوان IPv6؟", opts:["32 بت","64 بت","128 بت","256 بت"], ans:2},
+    {l:"المحاضرة 7", q:"لماذا نحتاج IPv6؟", opts:["لأنه أسرع","لنفاد عناوين IPv4","لأنه أرخص","لا سبب"], ans:1},
+    {l:"المحاضرة 7", q:"أي من التالي عنوان IPv6 صحيح؟", opts:["192.168.1.1","2001:0db8:85a3::8a2e:0370:7334","256.100.50.25","10.0.0.1"], ans:1},
+    {l:"المحاضرة 7", q:"::1 في IPv6 يمثل:", opts:["عنوان البث","Loopback Address (مثل 127.0.0.1)","عنوان عام","عنوان خاص"], ans:1},
+    {l:"المحاضرة 7", q:"أي آلية تساعد على الانتقال من IPv4 إلى IPv6؟", opts:["NAT فقط","Dual Stack و Tunneling","DHCP فقط","DNS فقط"], ans:1},
+    {l:"المحاضرة 7", q:"IPv6 لا يستخدم:", opts:["التشفير","ARP (يستخدم NDP بدلاً منه)","التوجيه","المنافذ"], ans:1},
+
+    // ===== المحاضرة 8: الشبكات اللاسلكية و IoT (7 أسئلة) =====
+    {l:"المحاضرة 8", q:"معيار Wi-Fi الأحدث والأскор هو:", opts:["802.11b","802.11g","802.11n","802.11ax (Wi-Fi 6)"], ans:3},
+    {l:"المحاضرة 8", q:"تردد 5 GHz مقارنة بـ 2.4 GHz:", opts:["أبطأ لكن مدى أبعد","أسرع لكن مدى أقصر","نفس السرعة","أقل أماناً"], ans:1},
+    {l:"المحاضرة 8", q:"ما هو SSID؟", opts:["كلمة سر الشبكة","اسم الشبكة اللاسلكية","عنوان IP الراوتر","نوع التشفير"], ans:1},
+    {l:"المحاضرة 8", q:"أقوى بروتوكول أمان للـ Wi-Fi حالياً:", opts:["WEP","WPA","WPA2","WPA3"], ans:3},
+    {l:"المحاضرة 8", q:"ما هو IoT؟", opts:["بروتوكول إنترنت","إنترنت الأشياء - أجهزة متصلة بالإنترنت","نوع من الراوترات","لغة برمجة"], ans:1},
+    {l:"المحاضرة 8", q:"بروتوكول MQTT يُستخدم في:", opts:["تصفح الويب","إنترنت الأشياء (IoT)","البريد الإلكتروني","نقل الملفات الكبيرة"], ans:1},
+    {l:"المحاضرة 8", q:"هجوم Evil Twin هو:", opts:["هجوم DDoS","نقطة وصول مزيفة تقلد شبكة شرعية","هجوم تصيد","فيروس"], ans:1},
+
+    // ===== المحاضرة 9: أمن الشبكات (8 أسئلة) =====
+    {l:"المحاضرة 9", q:"ما هي Firewall؟", opts:["برنامج مكافحة فيروسات","جدار حماية يراقب ويتحكم بحركة المرور","متصفح آمن","خادم بريد"], ans:1},
+    {l:"المحاضرة 9", q:"ACL تعني:", opts:["Access Control List - قائمة التحكم بالوصول","Automatic Connection Link","Advanced Cyber Layer","لا شيء"], ans:0},
+    {l:"المحاضرة 9", q:"هجوم DDoS يهدف إلى:", opts:["سرقة البيانات","إغراق الخادم بطلبات كثيرة لإيقافه","تشفير الملفات","التجسس"], ans:1},
+    {l:"المحاضرة 9", q:"ما هو DMZ؟", opts:["منطقة عسكرية","منطقة شبكية معزولة تستضيف الخدمات العامة","نوع من الفيروسات","بروتوكول تشفير"], ans:1},
+    {l:"المحاضرة 9", q:"IDS مقابل IPS:", opts:["IDS يكتشف فقط، IPS يكتشف ويمنع","لا فرق","IPS أبطأ","IDS يمنع الهجمات"], ans:0},
+    {l:"المحاضرة 9", q:"مبدأ Least Privilege يعني:", opts:["إعطاء أقل صلاحيات ضرورية","إعطاء كل الصلاحيات","منع جميع الصلاحيات","تجاهل الصلاحيات"], ans:0},
+    {l:"المحاضرة 9", q:"تشفير WPA3 يستخدم:", opts:["TKIP","AES و SAE","WEP","لا تشفير"], ans:1},
+    {l:"المحاضرة 9", q:"هجوم Man-in-the-Middle (MITM) هو:", opts:["هجوم على الخادم","اعتراض الاتصال بين طرفين","هجوم DDoS","فيروس"], ans:1},
+
+    // ===== المحاضرة 10: برمجة الشبكات Python (8 أسئلة) =====
+    {l:"المحاضرة 10", q:"ما هو Socket في البرمجة؟", opts:["مقبس كهربائي","نقطة اتصال بين برنامجين عبر الشبكة","نوع من البيانات","متغير"], ans:1},
+    {l:"المحاضرة 10", q:"مكتبة Python المستخدمة للتعامل مع الشبكات:", opts:["numpy","socket","pandas","matplotlib"], ans:1},
+    {l:"المحاضرة 10", q:"REST API يستخدم بروتوكول:", opts:["FTP","HTTP/HTTPS","SMTP","SSH"], ans:1},
+    {l:"المحاضرة 10", q:"Method GET في HTTP يُستخدم لـ:", opts:["إرسال بيانات","جلب/قراءة بيانات","حذف بيانات","تحديث بيانات"], ans:1},
+    {l:"المحاضرة 10", q:"JSON هو:", opts:["لغة برمجة","صيغة تبادل بيانات خفيفة","نظام تشغيل","قاعدة بيانات"], ans:1},
+    {l:"المحاضرة 10", q:"دالة socket.connect() تُستخدم لـ:", opts:["إرسال بيانات","الاتصال بخادم","إغلاق الاتصال","إنشاء خادم"], ans:1},
+    {l:"المحاضرة 10", q:"WebSockets تختلف عن HTTP في:", opts:["لا فرق","اتصال ثنائي الاتجاه مستمر","أبطأ","تستخدم UDP فقط"], ans:1},
+    {l:"المحاضرة 10", q:"مكتبة requests في Python تُستخدم لـ:", opts:["تحليل الشبكات","إرسال طلبات HTTP بسهولة","قواعد البيانات","الرسومات"], ans:1},
+
+    // ===== المحاضرة 11: السحابة و Docker (7 أسئلة) =====
+    {l:"المحاضرة 11", q:"ما هي الحوسبة السحابية (Cloud)؟", opts:["تخزين على القرص الصلب","تقديم خدمات حاسوبية عبر الإنترنت","نوع من الشبكات المحلية","برنامج"], ans:1},
+    {l:"المحاضرة 11", q:"أي من التالي مزود خدمة سحابية؟", opts:["Microsoft Word","AWS (Amazon Web Services)","Photoshop","Windows 10"], ans:1},
+    {l:"المحاضرة 11", q:"ما هو Docker؟", opts:["نظام تشغيل","منصة لبناء وتشغيل التطبيقات في حاويات (Containers)","لغة برمجة","متصفح"], ans:1},
+    {l:"المحاضرة 11", q:"الفرق بين VM و Container:", opts:["لا فرق","VM تحتوي OS كامل، Container تشارك OS المضيف","Container أثقل","VM أسرع دائماً"], ans:1},
+    {l:"المحاضرة 11", q:"IaaS تعني:", opts:["Internet as a Service","Infrastructure as a Service","Information as a Service","Integration as a Service"], ans:1},
+    {l:"المحاضرة 11", q:"Dockerfile يُستخدم لـ:", opts:["تشغيل الحاوية","بناء صورة (Image) للحاوية","حذف الحاوية","نسخ الملفات"], ans:1},
+    {l:"المحاضرة 11", q:"VPC في AWS تعني:", opts:["Virtual Private Cloud","Very Private Connection","Virtual Public Computer","لا شيء"], ans:0},
+
+    // ===== المحاضرة 12: تشخيص الشبكات (7 أسئلة) =====
+    {l:"المحاضرة 12", q:"أمر ping يُستخدم لـ:", opts:["تصفح الويب","اختبار الاتصال بجهاز آخر","تحميل ملفات","تشفير البيانات"], ans:1},
+    {l:"المحاضرة 12", q:"أمر traceroute (أو tracert) يُستخدم لـ:", opts:["تتبع مسار الحزمة عبر الراوترات","تحميل الملفات","تشفير الاتصال","فحص الفيروسات"], ans:0},
+    {l:"المحاضرة 12", q:"أمر nslookup يُستخدم لـ:", opts:["فحص الشبكة","الاستعلام عن DNS","تشفير البيانات","نقل الملفات"], ans:1},
+    {l:"المحاضرة 12", q:"أمر ipconfig (أو ifconfig) يعرض:", opts:["سرعة الإنترنت","إعدادات الشبكة وعنوان IP","كلمات السر","سجل التصفح"], ans:1},
+    {l:"المحاضرة 12", q:"أمر netstat يُستخدم لـ:", opts:["عرض الاتصالات النشطة والمنافذ","تصفح الويب","تشفير الملفات","حذف البرامج"], ans:0},
+    {l:"المحاضرة 12", q:"إذا كان ping لـ 127.0.0.1 يفشل، فالمشكلة في:", opts:["الإنترنت","بطاقة الشبكة المحلية (Loopback)","الراوتر","خادم DNS"], ans:1},
+    {l:"المحاضرة 12", q:"أمر curl يُستخدم لـ:", opts:["تحرير النصوص","تحميل البيانات من URLs عبر بروتوكولات متعددة","فحص الفيروسات","تشفير الأقراص"], ans:1},
+
+    // ===== المحاضرة 13: أدوات الأمن (Nmap, Wireshark) + CTF (7 أسئلة) =====
+    {l:"المحاضرة 13", q:"أداة Nmap تُستخدم لـ:", opts:["تصفح الويب","فحص الشبكة واكتشاف الأجهزة والمنافذ المفتوحة","تحرير الصور","تشغيل الألعاب"], ans:1},
+    {l:"المحاضرة 13", q:"أمر nmap -sV يقوم بـ:", opts:["فحص سريع","اكتشاف إصدارات الخدمات على المنافذ","فحص الفيروسات","تشفير البيانات"], ans:1},
+    {l:"المحاضرة 13", q:"Wireshark هي أداة لـ:", opts:["فحص الفيروسات","التقاط وتحليل حزم الشبكة","تصفح آمن","تشفير البريد"], ans:1},
+    {l:"المحاضرة 13", q:"ما هو Port Scanning؟", opts:["فحص المنافذ المفتوحة على جهاز","فحص الميناء البحري","تشفير المنافذ","حذف المنافذ"], ans:0},
+    {l:"المحاضرة 13", q:"CTF في الأمن السيبراني تعني:", opts:["Capture The Flag - مسابقات اختراق","Computer Training File","Cyber Threat Filter","لا شيء"], ans:0},
+    {l:"المحاضرة 13", q:"أداة Metasploit تُستخدم في:", opts:["تصفح الويب","اختبار الاختراق واستغلال الثغرات","تحرير النصوص","الرسم"], ans:1},
+    {l:"المحاضرة 13", q:"ما هو Ethical Hacking؟", opts:["الاختراق غير القانوني","اختبار الأنظمة بتصريح لاكتشاف الثغرات","سرقة البيانات","تدمير الأنظمة"], ans:1},
+
+    // ===== أسئلة شاملة ومتنوعة (5 أسئلة) =====
+    {l:"شامل", q:"أي طبقة في OSI تتعامل مع التشفير والضغط؟", opts:["طبقة التطبيقات","طبقة العرض (Presentation)","طبقة الجلسة","طبقة النقل"], ans:1},
+    {l:"شامل", q:"ما هو CIDR Notation مثل /24؟", opts:["نوع من الهجمات","طريقة مختصرة لكتابة Subnet Mask","بروتوكول تشفير","لغة برمجة"], ans:1},
+    {l:"شامل", q:"HTTP Status Code 404 يعني:", opts:["نجاح","خطأ في الخادم","الصفحة غير موجودة","إعادة توجيه"], ans:2},
+    {l:"شامل", q:"ما هو VPN؟", opts:["شبكة خاصة افتراضية لتأمين الاتصال","نوع من الفيروسات","متصفح","لغة برمجة"], ans:0},
+    {l:"شامل", q:"مبدأ Defense in Depth يعني:", opts:["طبقة حماية واحدة","عدة طبقات من الحماية","لا حماية","حماية البرمجيات فقط"], ans:1}
+];
+
+// ===== خلط الأسئلة عشوائياً =====
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+// خلط خيارات كل سؤال مع تتبع الإجابة الصحيحة
+function prepareQuestions() {
+    const shuffled = shuffleArray(questions);
+    return shuffled.map(q => {
+        const optsWithIdx = q.opts.map((opt, idx) => ({ text: opt, isCorrect: idx === q.ans }));
+        const shuffledOpts = shuffleArray(optsWithIdx);
+        return {
+            l: q.l,
+            q: q.q,
+            opts: shuffledOpts.map(o => o.text),
+            ans: shuffledOpts.findIndex(o => o.isCorrect)
+        };
+    });
+}
+
+let currentQuestions = [];
+let userAnswers = new Array(100).fill(null);
+let timeLeft = 60 * 60; // 60 دقيقة
+let timerInterval = null;
+let examStartTime = null;
+
+// تعيين التاريخ
+document.getElementById('examDate').value = new Date().toLocaleDateString('ar-EG', {year:'numeric', month:'long', day:'numeric'});
+
+function checkStart() {
+    const name = document.getElementById('studentName').value.trim();
+    const age = document.getElementById('studentAge').value.trim();
+    document.getElementById('startBtn').disabled = !(name.length >= 2 && age >= 8);
+}
+
+function startExam() {
+    currentQuestions = prepareQuestions();
+    examStartTime = Date.now();
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('examScreen').style.display = 'block';
+    renderQuestions();
+    renderMap();
+    startTimer();
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('⏰ انتهى الوقت! سيتم تسليم الامتحان تلقائياً.');
+            submitExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    document.getElementById('timerText').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const box = document.getElementById('timerBox');
+    box.classList.remove('warning', 'danger');
+    if (timeLeft <= 60) box.classList.add('danger');
+    else if (timeLeft <= 300) box.classList.add('warning');
+}
+
+function renderQuestions() {
+    const body = document.getElementById('examBody');
+    body.innerHTML = '';
+    const letters = ['أ','ب','ج','د'];
+    currentQuestions.forEach((q, i) => {
+        const block = document.createElement('div');
+        block.className = 'question-block';
+        block.id = `qblock-${i}`;
+        let optsHTML = q.opts.map((opt, j) => `
+            <div class="option-item" id="opt-${i}-${j}" onclick="selectOption(${i},${j})">
+                <div class="option-radio"></div>
+                <div><strong>${letters[j]})</strong> ${opt}</div>
+            </div>
+        `).join('');
+        block.innerHTML = `
+            <div class="question-header">
+                <div class="q-number">${i+1}</div>
+                <div class="q-lecture">${q.l}</div>
+            </div>
+            <div class="q-text">${q.q}</div>
+            <div class="options-list">${optsHTML}</div>
+        `;
+        body.appendChild(block);
+    });
+}
+
+function selectOption(qIdx, optIdx) {
+    userAnswers[qIdx] = optIdx;
+    for (let j = 0; j < 4; j++) {
+        const el = document.getElementById(`opt-${qIdx}-${j}`);
+        if (el) el.classList.remove('selected');
+    }
+    document.getElementById(`opt-${qIdx}-${optIdx}`).classList.add('selected');
+    document.getElementById(`qblock-${qIdx}`).classList.add('answered');
+    updateProgress();
+    updateMap();
+}
+
+function updateProgress() {
+    const answered = userAnswers.filter(a => a !== null).length;
+    document.getElementById('progressInfo').textContent = `المُجاب: ${answered}/100`;
+    document.getElementById('progressFill').style.width = `${answered}%`;
+}
+
+function renderMap() {
+    const grid = document.getElementById('mapGrid');
+    grid.innerHTML = '';
+    for (let i = 0; i < 100; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'map-cell';
+        cell.id = `map-${i}`;
+        cell.textContent = i + 1;
+        cell.onclick = () => {
+            document.getElementById(`qblock-${i}`).scrollIntoView({behavior:'smooth', block:'center'});
+        };
+        grid.appendChild(cell);
+    }
+}
+
+function updateMap() {
+    for (let i = 0; i < 100; i++) {
+        const cell = document.getElementById(`map-${i}`);
+        if (cell) {
+            cell.classList.toggle('answered', userAnswers[i] !== null);
+        }
+    }
+}
+
+function confirmSubmit() {
+    const unanswered = userAnswers.filter(a => a === null).length;
+    if (unanswered > 0) {
+        if (!confirm(`⚠️ تركت ${unanswered} سؤالاً بدون إجابة.\nهل تريد تسليم الامتحان الآن؟`)) return;
+    } else {
+        if (!confirm('هل أنت متأكد من تسليم الامتحان؟')) return;
+    }
+    submitExam();
+}
+
+function submitExam() {
+    clearInterval(timerInterval);
+    const timeTaken = Math.floor((Date.now() - examStartTime) / 1000);
+    let correct = 0, wrong = 0, skipped = 0;
+    currentQuestions.forEach((q, i) => {
+        if (userAnswers[i] === null) skipped++;
+        else if (userAnswers[i] === q.ans) correct++;
+        else wrong++;
+    });
+    const percent = Math.round((correct / 100) * 100);
+    let grade, gradeClass;
+    if (percent >= 90) { grade = 'ممتاز 🏆'; gradeClass = 'grade-excellent'; }
+    else if (percent >= 80) { grade = 'جيد جداً 🌟'; gradeClass = 'grade-vgood'; }
+    else if (percent >= 70) { grade = 'جيد '; gradeClass = 'grade-good'; }
+    else if (percent >= 60) { grade = 'مقبول ✅'; gradeClass = 'grade-pass'; }
+    else { grade = 'يحتاج مراجعة 📚'; gradeClass = 'grade-fail'; }
+
+    const m = Math.floor(timeTaken / 60);
+    const s = timeTaken % 60;
+
+    document.getElementById('examScreen').style.display = 'none';
+    document.getElementById('resultScreen').style.display = 'block';
+
+    const name = document.getElementById('studentName').value.trim();
+    const age = document.getElementById('studentAge').value.trim();
+    document.getElementById('resultStudentName').textContent = ` ${name}`;
+    document.getElementById('resName').textContent = name;
+    document.getElementById('resAge').textContent = age;
+    document.getElementById('resDate').textContent = document.getElementById('examDate').value;
+    document.getElementById('resTime').textContent = `${m} دقيقة ${s} ثانية`;
+    document.getElementById('scoreNumber').textContent = correct;
+    document.getElementById('resCorrect').textContent = correct;
+    document.getElementById('resWrong').textContent = wrong;
+    document.getElementById('resSkipped').textContent = skipped;
+    document.getElementById('resPercent').textContent = percent + '%';
+    const badge = document.getElementById('gradeBadge');
+    badge.textContent = grade;
+    badge.className = 'grade-badge ' + gradeClass;
+
+    // مراجعة الإجابات
+    const letters = ['أ','ب','ج','د'];
+    let reviewHTML = '<h3 style="color:#1e3a8a; margin-bottom:15px;">📋 مراجعة الإجابات</h3>';
+    currentQuestions.forEach((q, i) => {
+        const isCorrect = userAnswers[i] === q.ans;
+        const status = userAnswers[i] === null ? '⬜ لم تُجب' : (isCorrect ? '✅ صحيح' : '❌ خطأ');
+        const statusColor = userAnswers[i] === null ? '#64748b' : (isCorrect ? '#10b981' : '#ef4444');
+        reviewHTML += `
+            <div class="question-block" style="border-color:${statusColor};">
+                <div class="question-header">
+                    <div class="q-number">${i+1}</div>
+                    <div class="q-lecture">${q.l}</div>
+                    <span style="margin-right:auto; font-weight:700; color:${statusColor};">${status}</span>
+                </div>
+                <div class="q-text">${q.q}</div>
+                <div style="background:#f0fdf4; padding:10px; border-radius:8px; margin-top:10px;">
+                    <strong>الإجابة الصحيحة:</strong> ${letters[q.ans]}) ${q.opts[q.ans]}
+                </div>
+            </div>
+        `;
+    });
+    document.getElementById('reviewSection').innerHTML = reviewHTML;
+
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
